@@ -1,0 +1,6 @@
+{
+"code": 0,
+"msg": "",
+"count": 1000,
+"data": [{"sid": "10000","sname": "user-0","sage": "女","sgender": "城市-0","sgrade": "签名-0","stelephone": "255","semail": "24"},{"sid": "10000","sname": "user-0","sage": "女","sgender": "城市-0","sgrade": "签名-0","stelephone": "255","semail": "24",}]
+}

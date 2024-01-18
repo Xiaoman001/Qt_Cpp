@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>项目清单</title>
+    <link rel="stylesheet"  type="text/css" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" ></script>
+<!--    <script src="业务员组长.js"></script>-->
+</head>
+<body >
+<div class="layui-fluid" style="padding: 0px">
+    <div class="layui-row" >
+        <div class="layui-panel " >
+            <div style="padding: 25px;">项目清单信息</div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="demoTable">
+            <!-------------------------------------->
+            <!-------------------------------------->
+            <!---------------这里是搜索添加-------------->
+            <!-------------------------------------->
+            <!-------------------------------------->
+            <div class="layui-row">
+                <div class="layui-col-md9">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;搜索原材料ID：
+                    <div class="layui-inline">
+                        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+                    </div>
+                    <button class="layui-btn" data-type="reload">搜索</button>
+                    <button id="newone" class="layui-btn layui-btn-warm layui-btn-lg layui-layout-right" onclick="newmaterial()">添加</button>
+                </div>
+            </div>
+
+        </div>
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <!---------------这里是添加-------------->
+        <!-------------------------------------->
+        <!-------------------------------------->
+
+
+        <script type="text/javascript">
+            function newmaterial(){
+                layer.open({
+                    type:1,
+                    area:['500px','300px'],
+                    title: '项目清单表',
+                    content: $("#cangguanyuan-from"),
+                    shade: 0,
+                    heigth:"200px",
+                    btn: ['提交','取消'],
+                    btn1: function(index, layero){
+                        var MaterialId=$("#material-id").val();
+                        var MaterialName=$('#material-name').val()
+                        var MaterialNumber=$('#material-number').val()
+                        var o=new Object
+                        o.rid=MaterialId
+                        o.rname=MaterialName
+                        o.number=MaterialNumber
+                        o.op='add';
+                        console.log(o);
+                        $.ajax({
+                            url: '',
+                            data:{
+                                op:o.op,
+                                rid:o.rid,
+                                rname:o.rname,
+                                number:o.number
+                            },
+                            type:'POST',
+                            success:function (dataa){
+                                // console.log(dataa);
+                                console.log('进入seccess成功');
+                                if(dataa==='Yes'){
+                                    layer.msg('新增成功');
+                                }else if (dataa==='No'){
+                                    layer.msg('非法的增加项');
+                                    console.log('增加失败');
+                                }
+                                console.log('退出seccess成功');
+                            },
+                            error:function (){
+                                console.log("出错啦！");
+                            }
+                        })
+                        layer.closeAll();
+                    },
+                    btn2: function(index, layero){
+                        parent.layer.close(index);//设置取消
+                        layer.closeAll();
+                        return false;
+                    },
+                    cancel: function(layero,index){
+                        layer.closeAll();
+                    },
+                    end:function (){
+                        layer.closeAll();
+                        location.reload();
+                    }
+                });
+            }
+        </script>
+
+
+        <!---------------这里是新建表单-------------->
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+
+        <form class="layui-form" id="cangguanyuan-from" style="display:none">
+            <div class="layui-form-item">
+                <label class="layui-form-label">原材料ID</label>
+                <div class="layui-input-block">
+                    <input style="width:80%" id="material-id" type="text" name="title" required  lay-verify="required" placeholder="请输入原材料ID" autocomplete="on" class="layui-input" style="width:100px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">原材料名称</label>
+                <div class="layui-input-block">
+                    <input style="width:80%" id="material-name" type="text" name="title" required  lay-verify="required" placeholder="请输入原材料名称" autocomplete="on" class="layui-input" style="width:100px">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">原材料数量</label>
+                <div class="layui-input-block">
+                    <input style="width:80%" id="material-number" type="text" name="title" required  lay-verify="required" placeholder="请输入原材料数量" autocomplete="on" class="layui-input" style="width:100px">
+                </div>
+            </div>
+        </form>
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <!---------------这里是编辑-------------->
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <script>
+            layui.use(['table', 'util'], function(){
+                var table = layui.table
+                    ,util = layui.util;
+
+                //监听单元格编辑
+                table.on('edit(user)', function(obj){
+                    var value = obj.value //得到修改后的值
+                        ,data = obj.data //得到所在行所有键值
+                        ,field = obj.field; //得到字段
+                    layer.confirm('真的修改行么', function(index){
+                        console.log('进入confirm');
+                        $.ajax({
+                            url: '',
+                            data:{
+                                op:'ins',
+                                rid:data.rid,//原材料id
+                                clo:field,
+                                val:value
+                            },
+                            type:'POST',
+                            success:function (dataa){
+                                console.log('进入succes');
+                                if(dataa==='Yes'){
+                                    layer.msg('[RID为'+ data.rid +'] ' +  ' 的材料采购已经分配给SID为：'+ util.escape(value)+'的采购员');
+                                }else if (dataa==='No'){
+                                    layer.msg('不符合规范的修改');
+                                    console.log('修改失败');
+                                }
+                                console.log('退出succes');
+                            },
+                            error:function (){
+                                console.log("出错啦！");
+                            }
+                        })
+                        layer.close(index);
+                    },
+                    function (index){
+                        console.log('点击取消按钮');
+                        location.reload();
+                        layer.close(index);
+                    })
+
+                });
+            });
+        </script>
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <!---------------这里是行toolbar-------------->
+        <!-------------------------------------->
+        <!-------------------------------------->
+
+
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+        <script>
+            layui.use('table', function(){
+                var table = layui.table;
+
+                //监听行工具事件
+                table.on('tool(user)', function(obj){
+                    var data = obj.data;
+                    //console.log(obj)
+                    if(obj.event === 'del'){
+                        layer.confirm('真的删除行么', function(index){
+                            $.ajax({
+                                url: '',
+                                data:{
+                                    op:'del',
+                                    rid:data.rid,//原材料id
+                                },
+                                type:'POST',
+                                success:function (dataa){
+                                    console.log('进入删除函数');
+                                    if(dataa==='Yes'){
+                                        obj.del();
+                                        layer.msg('删除成功！');
+                                        layer.close(index);
+                                    }
+                                    else if (dataa==='No'){
+                                        layer.msg('非法的删除操作！');
+                                        layer.close(index);
+                                        console.log("删除失败");
+                                        layer.close(index);
+                                    }
+                                    // console.log('kkkkkk');
+                                    layer.close(index);
+                                },
+                                error:function (){
+                                    console.log("出错啦！");
+                                }
+                            })
+
+                        });
+                    }
+                });
+            });
+        </script>
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <!---------------这里是渲染和选择重载------->
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <script>
+            layui.use('table', function(){
+                var table = layui.table;
+
+                //方法级渲染
+                table.render({
+                    elem: '#LAY_table_user'
+                    ,url: './demo'
+                    ,cellMinWidth:50
+                    ,cols: [[
+                        {type:'checkbox', title: 'ID',}
+                        ,{field:'rid', title: '原材料ID', width:400, sort: true, }
+                        ,{field:'rname', title: '原材料名称', width:200,}
+                        ,{field:'rnumber', title: '原材料数量', width:250, sort: true,}
+                        ,{field:'sid', title: '负责的业务员ID', width:250,edit: 'text'}
+                        ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                    ]]
+                    ,id: 'testReload'
+                    ,page: true
+                    ,height: 520
+                });
+
+                var $ = layui.$, active = {
+                    reload: function(){
+                        var demoReload = $('#demoReload');
+
+                        //执行重载
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                            ,where: {
+                                key: {
+                                    rid: demoReload.val()
+                                }
+                            }
+                        });
+                    }
+                };
+
+                $('.demoTable .layui-btn').on('click', function(){
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+            });
+        </script>
+    </div>
+
+</div>
+
+<script>
+    layui.use(['element', 'layer', 'util'], function(){
+        var element = layui.element
+            ,layer = layui.layer
+            ,util = layui.util
+            ,$ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+            //左侧菜单事件
+            menuLeft: function(othis){
+                layer.msg('展开左侧菜单的操作', {icon: 0});
+            }
+            ,menuRight: function(){
+                layer.open({
+                    type: 1
+                    ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+                    ,area: ['260px', '100%']
+                    ,offset: 'rt' //右上角
+                    ,anim: 5
+                    ,shadeClose: true
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

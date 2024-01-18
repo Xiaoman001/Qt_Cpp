@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>业务员信息</title>
+  <link rel="stylesheet"  type="text/css" href="./layui/css/layui.css">
+  <script src="./layui/layui.js"></script>
+  <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<!--  <script src="js.js"></script>-->
+</head>
+<body >
+<div class="layui-fluid" style="padding: 0px">
+  <div class="layui-row" >
+    <div class="layui-panel " >
+      <div style="padding-left: 25px;padding-right: 25px;padding-top: 25px;padding-bottom: 10px;">账号管理</div>
+    </div>
+  </div>
+  <div class="layui-row">
+    <div class="demoTable" style="padding-top: 10px">
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;搜索员工ID：
+      <div class="layui-inline" style="padding-right: 25px;">
+        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+      </div>
+      <button class="layui-btn layui-btn-radius layui-btn-primary" style="background: #a285f8;color: white" data-type="reload">搜索</button>
+    </div>
+
+    <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+
+
+    <script>
+
+      // layui.use('table', function(){
+      //   var table = layui.table;
+      //           table.render({
+      //             elem: '#LAY_table_user'
+      //             ,height: 520
+      //             ,url: './demo' //数据接口
+      //             ,page: true //开启分页
+      //             ,toolbar:'default'
+      //             ,escape:true
+      //             ,cols: [[ //表头
+      //               ,{field: 'username', title: '员工ID', width:225}
+      //               ,{field: 'sex', title: '姓名', width:100}
+      //               ,{field: 'city', title: '性别', width:100}
+      //               ,{field: 'sign', title: '账号', width: 225}
+      //               ,{field: 'experience', title: '密码', width: 175}
+      //               ,{field: 'score', title: '电话号码', width: 225}
+      //               ,{field: 'classify', title: '邮箱', width: 225}
+      //             ]]
+      //           });
+      // });
+
+
+
+      layui.use('table', function(){
+        var table = layui.table;
+        //方法级渲染
+        table.render({
+          elem: '#LAY_table_user'
+          ,url: './demo'
+          ,escape:true
+          ,toolbar:'default'
+          ,cols: [[
+				{type:'checkbox', title: 'ID'}
+				,{field:'sid', title: '员工ID', width:225, sort: true}
+				,{field:'sname', title: '姓名', width:100}
+				,{field:'sgender', title: '性别', width:100}
+				,{field:'saccount', title: '账号', width:225}
+				,{field:'spass', title: '密码', width:175}
+				,{field:'stelephone', title: '电话号码',width:225}
+				,{field:'semail', title: '邮箱', width:225}
+			]]
+          ,id: 'testReload'
+          ,page: true
+          ,height: 520
+        });
+
+        var $ = layui.$, active = {
+          reload: function(){
+            var demoReload = $('#testReload');
+
+            //执行重载
+            table.reload('testReload', {
+              page: {
+                curr: 1 //重新从第 1 页开始
+              }
+              ,where: {
+                key: {
+                  sid: demoReload.val()
+                }
+              }
+            });
+          }
+        };
+
+        $('.demoTable .layui-btn').on('click', function(){
+          var type = $(this).data('type');
+          active[type] ? active[type].call(this) : '';
+        });
+      });
+
+    </script>
+
+
+
+
+  </div>
+
+</div>
+<script>
+  layui.use(['element', 'layer', 'util'], function(){
+    var element = layui.element
+            ,layer = layui.layer
+            ,util = layui.util
+            ,$ = layui.$;
+
+    //头部事件
+    util.event('lay-header-event', {
+      //左侧菜单事件
+      menuLeft: function(othis){
+        layer.msg('展开左侧菜单的操作', {icon: 0});
+      }
+      ,menuRight: function(){
+        layer.open({
+          type: 1
+          ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+          ,area: ['260px', '100%']
+          ,offset: 'rt' //右上角
+          ,anim: 5
+          ,shadeClose: true
+        });
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+<style>
+  .layui-laypage .layui-laypage-curr .layui-laypage-em{
+    background-color: #a285f8 !important;
+  }
+</style>

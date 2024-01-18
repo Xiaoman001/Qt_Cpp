@@ -1,0 +1,216 @@
+#widget{
+background-color: rgb(64, 65, 66);
+border-right:2px solid rgb(243, 243, 243)
+}
+
+#settings_label{
+font: 75 12pt "黑体";
+border-right:2px solid rgb(243, 243, 243);
+background-color: rgb(64, 65, 66);
+color:rgb(255, 255, 255);
+}
+
+#label_LanguageAndRegin{
+font: 12pt "方正粗黑宋简体";
+color:rgb(255, 255, 255);
+}
+
+#languageSwitch_label{
+font: 10pt "黑体";
+color:rgb(255, 255, 255);
+}
+
+#confirm_button{
+border-radius:7px;
+background-color: rgb(67, 93, 241);
+color: rgb(255, 255, 255);
+}
+
+#chooseLanguage_box{
+  border :  1px  solid  gray ;
+     border-radius:  3px ;
+     padding :  1px  2px  1px  2px ;
+     min-width :  9em ;
+      selection-background-color:rgb(0,0,0);
+      selection:rgb(255,255,255);
+}
+#moreLanguage_label{
+font: 15pt "黑体";
+color:rgb(255, 255, 255);
+}
+
+#logo_label{
+color: rgb(172, 172, 172);
+border:0px solid rgb(243, 243, 243);
+}
+
+#stackedWidget{
+background-color: rgb(64, 65, 66);
+}
+
+#listWidget{
+border:0px solid rgb(243, 243, 243);
+background-color: rgb(64, 65, 66);
+color:rgb(255, 255, 255);
+}
+
+
+#appearance_label{
+font: 12pt "方正粗黑宋简体";
+color:rgb(255, 255, 255);
+}
+
+#provide_label{
+font: 10pt "黑体";
+color:rgb(255, 255, 255);
+}
+
+#light_radioButton{
+font: 12pt "黑体";
+color:rgb(255, 255, 255);
+}
+
+#dark_radioButton{
+font: 12pt "黑体";
+color:rgb(255, 255, 255);
+}
+
+#auto_radioButton{
+font: 12pt "黑体";
+color:rgb(255, 255, 255);
+}
+
+#widget_2{
+background-color: rgb(0,0,0);
+border-radius:20px
+}
+
+#tip_label{
+color:rgb(172, 172, 172);
+}
+
+#helpandfeedback{
+color:rgb(255, 255, 255);
+font: 12pt "方正粗黑宋简体";
+}
+
+#fingersHelp_label{
+color:rgb(255, 255, 255);
+font: 10pt "黑体";
+}
+
+#make_suggestion_label{
+color:rgb(255, 255, 255);
+font: 10pt "黑体";
+}
+
+#suggestion_im_label{
+color:rgb(255, 255, 255);
+}
+
+#make_repair_label{
+color:rgb(255, 255, 255);
+font: 10pt "黑体";
+}
+#users_label
+{
+color:rgb(255, 255, 255);
+font: 10pt "黑体";}
+
+
+#widget_6{
+border-radius:20px;
+background-color: rgb(0,0, 0);
+}
+
+#widget_7{
+border-radius:20px;
+background-color: rgb(0, 0, 0);
+}
+
+#widget_8{
+border-radius:20px;
+background-color: rgb(0, 0, 0);
+}
+
+#inform_label{
+color: rgb(255, 255, 255);
+}
+#lookforward_label{
+color: rgb(255, 255, 255);
+}
+
+#submit_su_button{
+
+color: rgb(0, 137, 255);
+
+}
+
+#label_thanks{
+color: rgb(255, 255, 255);
+background-color: rgb(0, 0, 0,0);
+}
+
+#cancel1,#submit1 {
+color: rgb(255, 255, 255);
+background-color: rgb(0, 0, 0);
+border:1px solid rgb(0, 137, 255);
+border-radius:5px;
+}
+
+#DialogSuggestion{
+background-color: rgb(64, 65, 66);
+}
+
+#text_suggestion{
+background-color:rgb(0, 0, 0);
+color:rgb(255,255,255);
+}
+
+
+#label_27{
+font: 12pt "方正粗黑宋简体";
+color:rgb(255,255,255);
+}
+
+#label{
+font: 12pt "黑体";
+color: rgb(112, 140, 245);
+}
+
+#label_9{
+color:rgb(255,255,255);
+}
+
+#label_10{
+color:rgb(255,255,255);
+}
+
+#label_5{
+color:rgb(255,255,255);
+}
+
+#label_2{
+font: 12pt "方正粗黑宋简体";
+color: rgb(255, 0, 127);
+}
+
+#label_4{
+font: 12pt "方正粗黑宋简体";
+color: rgb(255, 0, 127);
+}
+
+#label_6{
+font: 18pt "Comic Sans MS";
+color:rgb(255,255,255);
+}
+
+#label_8{
+font: 10pt "方正粗黑宋简体";
+color:rgb(97, 94, 240)
+}
+
+#chooseLanguage_box{
+background:rgb(255,255,255)
+color:rgb(0,0,0);
+}

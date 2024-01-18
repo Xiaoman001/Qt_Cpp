@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>合同状态</title>
+    <link rel="stylesheet"  type="text/css" href="./layui/css/layui.css">
+    <script src="./layui/layui.js"></script>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" ></script>
+</head>
+<body >
+<div class="layui-fluid" style="padding: 0px">
+    <div class="layui-row" >
+        <div class="layui-panel " >
+            <div style="padding: 25px;">合同状态信息</div>
+        </div>
+    </div>
+    <div class="layui-row">
+        <div class="demoTable">
+            <!-------------------------------------->
+            <!-------------------------------------->
+            <!---------------这里是搜索-------------->
+            <!-------------------------------------->
+            <!-------------------------------------->
+            <div class="layui-row">
+                <div class="layui-col-md9">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;搜索原材料ID：
+                    <div class="layui-inline">
+                        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+                    </div>
+                    <button class="layui-btn" data-type="reload">搜索</button>
+                </div>
+            </div>
+
+        </div>
+
+
+        <table class="layui-hide" id="LAY_table_user" lay-filter="user"></table>
+
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <!---------------这里是编辑-------------->
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <script>
+            layui.use(['table', 'util'], function(){
+                var table = layui.table
+                    ,util = layui.util;
+
+                //监听单元格编辑
+                table.on('edit(user)', function(obj){
+                    var value = obj.value //得到修改后的值
+                        ,data = obj.data //得到所在行所有键值
+                        ,field = obj.field; //得到字段
+                    layer.confirm('真的修改行么', function(index){
+                        console.log('进入confirm');
+                        $.ajax({
+                            url: '',
+                            data:{
+                                op:'ins',
+                                rid:data.rid,
+                                hid:data.hid,
+                                sid:data.sid,
+                                clo:field,
+                                val:value
+                            },
+                            type:'POST',
+                            success:function (dataa){
+                                console.log('进入succes');
+                                if(dataa==='Yes'){
+                                    layer.msg('当前合同状态成功修改为'+ util.escape(value));
+                                }else if (dataa==='No'){
+                                    layer.msg('不符合规范的修改');
+                                    console.log('修改失败');
+                                }
+                                console.log('退出succes');
+                            },
+                            error:function (){
+                                console.log("出错啦！");
+                            }
+                        })
+                        layer.close(index);
+                    })
+
+                });
+            });
+        </script>
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <!---------------这里是行toolbar-------------->
+        <!-------------------------------------->
+        <!-------------------------------------->
+
+
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+        <script>
+            layui.use('table', function(){
+                var table = layui.table;
+
+                //监听行工具事件
+                table.on('tool(user)', function(obj){
+                    var data = obj.data;
+                    if(obj.event === 'del'){
+                        layer.confirm('真的删除行么', function(index){
+                            console.log('进入删除函数');
+                            $.ajax({
+                                url: '',
+                                data:{
+                                    op:'del',
+                                    rid:data.rid,
+                                    hid:data.hid,
+                                    sid:data.sid
+                                },
+                                type:'POST',
+                                success:function (dataa){
+                                    console.log('进入删除函数');
+                                    if(dataa==='Yes'){
+                                        obj.del();
+                                        layer.msg('删除成功！');
+                                        layer.close(index);
+                                    }
+                                    else if (dataa==='No'){
+                                        layer.msg('非法的删除操作！');
+                                        layer.close(index);
+                                        console.log("删除失败");
+                                        layer.close(index);
+                                    }
+                                    console.log('kkkkkk');
+                                    layer.close(index);
+
+                                },
+                                error:function (){
+                                    console.log("出错啦！");
+                                }
+                            })
+                        });
+                    }
+                });
+            });
+        </script>
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <!---------------这里是渲染和选择重载------->
+        <!-------------------------------------->
+        <!-------------------------------------->
+        <script>
+            layui.use('table', function(){
+                var table = layui.table;
+
+                //方法级渲染
+                table.render({
+                    elem: '#LAY_table_user'
+                    ,url: './demo'
+                    ,toolbar:'default'
+                    ,cellMinWidth:50
+                    ,cols: [[
+                        {type:'checkbox', title: 'ID'}
+                        ,{field:'rid', title: '原材料ID', width:250, sort: true,}
+                        ,{field:'pid', title: '供应商ID', width:250, sort: true, }
+                        ,{field:'sid', title: '业务员ID', width:250,}
+                        ,{field:'rnumber', title: '原材料成交量', width:205,}
+                        ,{field:'file', title: '合同状态',width: 155,edit: 'text'}
+                        ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                    ]]
+                    ,id: 'testReload'
+                    ,page: true
+                    ,height: 520
+                });
+
+                var $ = layui.$, active = {
+                    reload: function(){
+                        var demoReload = $('#demoReload');
+
+                        //执行重载
+                        table.reload('testReload', {
+                            page: {
+                                curr: 1 //重新从第 1 页开始
+                            }
+                            ,where: {
+                                key: {
+                                    rid: demoReload.val()
+                                }
+                            }
+                        });
+                    }
+                };
+
+                $('.demoTable .layui-btn').on('click', function(){
+                    var type = $(this).data('type');
+                    active[type] ? active[type].call(this) : '';
+                });
+            });
+        </script>
+    </div>
+
+</div>
+
+<script>
+    layui.use(['element', 'layer', 'util'], function(){
+        var element = layui.element
+            ,layer = layui.layer
+            ,util = layui.util
+            ,$ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+            //左侧菜单事件
+            menuLeft: function(othis){
+                layer.msg('展开左侧菜单的操作', {icon: 0});
+            }
+            ,menuRight: function(){
+                layer.open({
+                    type: 1
+                    ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+                    ,area: ['260px', '100%']
+                    ,offset: 'rt' //右上角
+                    ,anim: 5
+                    ,shadeClose: true
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>
